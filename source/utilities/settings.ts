@@ -22,8 +22,7 @@ const defaultSettings: Settings = {
  * Returns the user's settings.
  */
 export async function getSettings(): Promise<Settings> {
-  // TODO: Replace local storage with sync storage.
-  const syncSettings: any = await browser.storage.local.get(defaultSettings);
+  const syncSettings: any = await browser.storage.sync.get(defaultSettings);
   const settings: Settings = {
     latestVersion: syncSettings.latestVersion,
     queue: syncSettings.queue
@@ -37,8 +36,7 @@ export async function getSettings(): Promise<Settings> {
  * @param settings The settings to save.
  */
 export async function saveSettings(settings: Settings): Promise<Settings> {
-  // TODO: Replace local storage with sync storage.
-  await browser.storage.local.set(settings);
+  await browser.storage.sync.set(settings);
   return settings;
 }
 
