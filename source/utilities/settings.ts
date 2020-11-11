@@ -23,9 +23,17 @@ const defaultSettings: Settings = {
  */
 export async function getSettings(): Promise<Settings> {
   const syncSettings: any = await browser.storage.sync.get(defaultSettings);
+
+  const queue: QItem[] = syncSettings.queue;
+
+  // Initialize all the non-JSON values, as they are stringified when saved.
+  for (const item of queue) {
+    item.added = new Date(item.added);
+  }
+
   const settings: Settings = {
     latestVersion: syncSettings.latestVersion,
-    queue: syncSettings.queue
+    queue
   };
 
   return settings;
