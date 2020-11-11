@@ -16,6 +16,8 @@
 
 .q-item {
   background-color: var(--db-2);
+  display: grid;
+  grid-template-columns: auto min-content;
   padding: 8px;
 
   .title {
@@ -23,10 +25,6 @@
     font-size: 2rem;
     font-weight: bold;
     margin-bottom: 8px;
-  }
-
-  .buttons {
-    float: right;
   }
 
   .confirm-button {
