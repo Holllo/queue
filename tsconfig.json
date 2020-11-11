@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "lib": [
+      "ES2019"
+    ],
+    "module": "commonjs",
+    "outDir": "build/",
+    "strict": true,
+    "target": "es6",
+    "typeRoots": [
+      "node_modules/@types",
+      "node_modules/web-ext-types"
+    ],
+  },
+  "include": [
+    "source/**/*.ts",
+  ],
+  "exclude": [
+    "node_modules/"
+  ]
+}

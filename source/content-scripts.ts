@@ -1,0 +1,3 @@
+import {initializeBackgroundMessageHandler} from '.';
+
+initializeBackgroundMessageHandler();

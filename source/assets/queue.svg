@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" viewBox="0 0 100 100">
+  <rect fill="#E6DEFF" width="100" height="100" />
+
+  <!-- Alignment grid. -->
+  <g display="none">
+    <rect fill="#f0f" x="49.5" width="1" height="100" />
+    <rect fill="#f0f" y="49.5" width="100" height="1" />
+
+    <rect fill="#f0f" y="30" width="100" height="1" />
+    <rect fill="#f0f" y="69" width="100" height="1" />
+
+    <rect fill="#f0f" x="13" width="1" height="100" />
+    <rect fill="#f0f" x="86" width="1" height="100" />
+  </g>
+
+  <text
+    fill="#1F1731"
+    font-family="Iosevka SS01"
+    font-size="75"
+    font-weight="900"
+    x="47.9"
+    y="55.6"
+    alignment-baseline="middle"
+    text-anchor="middle"
+  >
+    ⇥
+  </text>
+</svg>

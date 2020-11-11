@@ -1,0 +1,6 @@
+.page-footer {
+  @include responsive-container;
+  border: 1px solid var(--lb-2);
+  margin-bottom: 16px;
+  padding: 16px;
+}

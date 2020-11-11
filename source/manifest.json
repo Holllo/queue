@@ -1,0 +1,45 @@
+{
+  "$schema": "http://json.schemastore.org/webextension",
+  "manifest_version": 2,
+  "name": "Queue",
+  "description": "A WebExtension for queueing links.",
+  "version": "0.1.0",
+  "permissions": [
+    "contextMenus",
+    "storage",
+    "tabs",
+    "*://*/*"
+  ],
+  "content_security_policy": "script-src 'self'; object-src 'self'; style-src 'unsafe-inline'",
+  "web_accessible_resources": [
+    "./assets/**"
+  ],
+  "icons": {
+    "128": "./assets/queue.png"
+  },
+  "background": {
+    "scripts": [
+      "./background.ts"
+    ]
+  },
+  "browser_action": {
+    "default_icon": {
+      "128": "./assets/queue.png"
+    }
+  },
+  "options_ui": {
+    "page": "./index.html",
+    "open_in_tab": true
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*/*"
+      ],
+      "run_at": "document_end",
+      "js": [
+        "./content-scripts.ts"
+      ]
+    }
+  ]
+}

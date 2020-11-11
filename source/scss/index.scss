@@ -1,0 +1,26 @@
+@import 'reset';
+@import 'variables';
+@import 'love';
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  background-color: var(--db-1);
+  color: var(--df-1);
+  font-size: 1.5rem;
+  padding: 16px;
+}
+
+a {
+  color: var(--da-3);
+
+  &:hover {
+    color: var(--df-2);
+  }
+}
+
+@import 'components/page-header';
+@import 'components/page-main';
+@import 'components/page-footer';

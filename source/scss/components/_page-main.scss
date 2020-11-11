@@ -1,0 +1,85 @@
+.page-main {
+  @include responsive-container;
+  margin-bottom: 16px;
+}
+
+.q-list {
+  border: 1px solid var(--df-2);
+  list-style: none;
+  margin-bottom: 16px;
+  padding: 16px;
+
+  > li:not(:last-child) {
+    margin-bottom: 16px;
+  }
+}
+
+.q-item {
+  background-color: var(--db-2);
+  padding: 8px;
+
+  .title {
+    display: inline-block;
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+
+  .buttons {
+    float: right;
+  }
+
+  .confirm-button {
+    align-items: center;
+    background-color: var(--la-1);
+    border: none;
+    color: var(--df-1);
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+    height: 2.5rem;
+    justify-content: center;
+    padding: 0;
+    width: 2.5rem;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    &.confirm {
+      background-color: var(--df-1);
+      color: var(--la-1);
+    }
+  }
+}
+
+.usage {
+  border: 1px solid var(--df-2);
+
+  &[open] {
+    summary {
+      background-color: var(--df-2);
+      color: var(--db-1);
+      margin-bottom: 16px;
+    }
+
+    > :not(summary) {
+      padding: 0 16px;
+    }
+  }
+
+  summary {
+    cursor: pointer;
+    padding: 16px;
+
+    &:hover {
+      background-color: var(--df-1);
+      color: var(--db-1);
+    }
+  }
+
+  ul {
+    list-style: square;
+    margin: 4px 0 2rem 16px;
+  }
+}
