@@ -1,6 +1,6 @@
 import {html} from 'htm/preact';
 
-type QMessageAction = 'queue open url';
+type QMessageAction = 'queue open url' | 'queue update badge';
 
 export type QMessage<T> = {
   action: QMessageAction;

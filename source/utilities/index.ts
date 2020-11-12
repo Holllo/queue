@@ -1,5 +1,5 @@
 import {browser, Manifest} from 'webextension-polyfill-ts';
-import {QItem, QMessage} from '..';
+import {getSettings, QItem, QMessage, Settings} from '..';
 
 /**
  * Initializes the background message handler.
@@ -43,6 +43,34 @@ export function log(thing: unknown) {
  */
 export function error(thing: unknown) {
   console.error('[Queue]', thing);
+}
+
+/**
+ * Updates the extension icon badge with the number of saved items. This can
+ * only be run from the background script.
+ * @param settings Optional user settings to use.
+ */
+export async function updateBadge(settings?: Settings): Promise<void> {
+  if (settings === undefined) {
+    settings = await getSettings();
+  }
+
+  let text: string | null = null;
+  if (settings.queue.length > 0) {
+    text = settings.queue.length.toString();
+  }
+
+  await Promise.all([
+    browser.browserAction.setBadgeBackgroundColor({
+      color: '#2a2041'
+    }),
+    browser.browserAction.setBadgeTextColor({
+      color: '#f2efff'
+    }),
+    browser.browserAction.setBadgeText({
+      text
+    })
+  ]);
 }
 
 export * from './components';

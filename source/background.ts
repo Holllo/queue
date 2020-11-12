@@ -8,7 +8,8 @@ import {
   QItem,
   QMessage,
   removeQItem,
-  saveSettings
+  saveSettings,
+  updateBadge
 } from '.';
 
 let timeoutID: number | null = null;
@@ -43,6 +44,12 @@ browser.browserAction.onClicked.addListener(async () => {
     window.clearTimeout(timeoutID);
     timeoutID = null;
     await openOptionsPage();
+  }
+});
+
+browser.runtime.onMessage.addListener(async (request: QMessage<unknown>) => {
+  if (request.action === 'queue update badge') {
+    await updateBadge();
   }
 });
 
@@ -100,5 +107,6 @@ browser.contextMenus.onClicked.addListener(async (info, _tab) => {
     });
 
     await saveSettings(settings);
+    await updateBadge(settings);
   }
 });

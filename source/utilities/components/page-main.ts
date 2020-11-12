@@ -1,5 +1,6 @@
 import {html} from 'htm/preact';
 import {useState} from 'preact/hooks';
+import {browser} from 'webextension-polyfill-ts';
 import {
   ConfirmButton,
   Link,
@@ -19,6 +20,7 @@ export function PageMain(props: MainProps): QComponent {
   const _removeQItem = async (id: number) => {
     const updated = await removeQItem(id);
     updateQueue(updated.queue);
+    await browser.runtime.sendMessage({action: 'queue update badge'});
   };
 
   const qItems: QComponent[] = queue
