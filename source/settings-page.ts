@@ -5,7 +5,8 @@ import {
   getSettings,
   PageFooter,
   PageHeader,
-  PageMain
+  PageMain,
+  saveSettings
 } from '.';
 
 (async () => {
@@ -14,11 +15,20 @@ import {
   const manifest = getManifest();
   const settings = await getSettings();
 
+  const showVersionUpdated = settings.versionGotUpdated;
+  if (showVersionUpdated) {
+    settings.versionGotUpdated = false;
+    await saveSettings(settings);
+  }
+
   render(
     html`
       <${PageHeader} />
       <${PageMain} settings=${settings} />
-      <${PageFooter} manifest=${manifest} />
+      <${PageFooter}
+        manifest=${manifest}
+        showVersionUpdated=${showVersionUpdated}
+      />
     `,
     document.body
   );

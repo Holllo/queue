@@ -65,6 +65,7 @@ browser.runtime.onInstalled.addListener(async () => {
     manifest.nodeEnv === 'development'
   ) {
     settings.latestVersion = manifest.version;
+    settings.versionGotUpdated = true;
     await saveSettings(settings);
     await openOptionsPage();
   }

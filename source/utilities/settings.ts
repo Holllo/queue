@@ -11,11 +11,13 @@ export type QItem = {
 export type Settings = {
   latestVersion: string;
   queue: QItem[];
+  versionGotUpdated: boolean;
 };
 
 const defaultSettings: Settings = {
   latestVersion: '0.0.0',
-  queue: []
+  queue: [],
+  versionGotUpdated: false
 };
 
 /**
@@ -33,7 +35,8 @@ export async function getSettings(): Promise<Settings> {
 
   const settings: Settings = {
     latestVersion: syncSettings.latestVersion,
-    queue
+    queue,
+    versionGotUpdated: syncSettings.versionGotUpdated
   };
 
   return settings;
