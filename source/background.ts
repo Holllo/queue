@@ -1,4 +1,4 @@
-import {browser} from 'webextension-polyfill-ts';
+import {browser, Menus} from 'webextension-polyfill-ts';
 import {
   error,
   getManifest,
@@ -86,24 +86,42 @@ function contextCreated() {
   }
 }
 
-browser.contextMenus.create(
+const contextMenus: Menus.CreateCreatePropertiesType[] = [
   {
     id: 'queue-add-new-link',
     title: 'Add to Queue',
     contexts: ['link']
   },
-  contextCreated
-);
+  {
+    id: 'queue-add-new-link-tab',
+    title: 'Add to Queue',
+    contexts: ['tab']
+  }
+];
+
+for (const menu of contextMenus) {
+  browser.contextMenus.create(menu, contextCreated);
+}
 
 browser.contextMenus.onClicked.addListener(async (info, _tab) => {
-  if (info.menuItemId === 'queue-add-new-link') {
+  if (info.menuItemId.toString().includes('queue-add-new-link')) {
     const settings = await getSettings();
+
+    let url: string;
+    if (info.menuItemId === 'queue-add-new-link') {
+      url = info.linkUrl!;
+    } else if (info.menuItemId === 'queue-add-new-link-tab') {
+      url = info.pageUrl!;
+    } else {
+      error(`Unknown menuItemId: ${info.menuItemId}`);
+      return;
+    }
 
     settings.queue.push({
       added: new Date(),
       id: newQItemID(settings.queue),
-      text: info.linkText!,
-      url: info.linkUrl!
+      text: info.linkText ?? url,
+      url
     });
 
     await saveSettings(settings);

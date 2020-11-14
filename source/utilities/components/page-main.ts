@@ -42,7 +42,7 @@ export function PageMain(props: MainProps): QComponent {
 
         <p>Adding links to your queue:</p>
         <ul>
-          <li>Right-click any link and click "Add to Queue".</li>
+          <li>Right-click any link or tab and click "Add to Queue".</li>
         </ul>
 
         <p>Opening the next link from your queue:</p>
