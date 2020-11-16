@@ -60,6 +60,9 @@ export function PageMain(props: MainProps): QComponent {
         <p>Opening the extension page:</p>
         <ul>
           <li>Double-click the extension icon.</li>
+          <li>
+            Right-click the extension icon and click "Open the extension page".
+          </li>
         </ul>
 
         <p>Deleting queue items:</p>

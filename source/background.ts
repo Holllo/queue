@@ -107,6 +107,11 @@ const contextMenus: Menus.CreateCreatePropertiesType[] = [
     id: 'queue-open-next-link-in-new-tab',
     title: 'Open next link in new tab',
     contexts: ['browser_action']
+  },
+  {
+    id: 'queue-open-options-page',
+    title: 'Open the extension page',
+    contexts: ['browser_action']
   }
 ];
 
@@ -154,5 +159,7 @@ browser.contextMenus.onClicked.addListener(async (info, _tab) => {
       await browser.tabs.create({active: true, url: nextItem.url});
       await removeQItem(nextItem.id);
     }
+  } else if (id === 'queue-open-options-page') {
+    await openOptionsPage();
   }
 });
