@@ -102,17 +102,31 @@ const contextMenus: Menus.CreateCreatePropertiesType[] = [
     id: 'queue-add-new-link-tab',
     title: 'Add to Queue',
     contexts: ['tab']
+  },
+  {
+    id: 'queue-open-next-link-in-new-tab',
+    title: 'Open next link in new tab',
+    contexts: ['browser_action']
   }
 ];
+
+const contextMenuIDs: Set<string> = new Set(
+  contextMenus.map((value) => value.id!)
+);
 
 for (const menu of contextMenus) {
   browser.contextMenus.create(menu, contextCreated);
 }
 
 browser.contextMenus.onClicked.addListener(async (info, _tab) => {
-  if (info.menuItemId.toString().includes('queue-add-new-link')) {
-    const settings = await getSettings();
+  const id = info.menuItemId.toString();
+  if (!contextMenuIDs.has(id)) {
+    return;
+  }
 
+  const settings = await getSettings();
+
+  if (id.includes('queue-add-new-link')) {
     let url: string;
     if (info.menuItemId === 'queue-add-new-link') {
       url = info.linkUrl!;
@@ -132,5 +146,13 @@ browser.contextMenus.onClicked.addListener(async (info, _tab) => {
 
     await saveSettings(settings);
     await updateBadge(settings);
+  } else if (id === 'queue-open-next-link-in-new-tab') {
+    const nextItem = await getNextQItem(settings);
+    if (nextItem === undefined) {
+      await openOptionsPage();
+    } else {
+      await browser.tabs.create({active: true, url: nextItem.url});
+      await removeQItem(nextItem.id);
+    }
   }
 });

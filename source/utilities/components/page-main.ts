@@ -47,7 +47,14 @@ export function PageMain(props: MainProps): QComponent {
 
         <p>Opening the next link from your queue:</p>
         <ul>
-          <li>Click on the extension icon.</li>
+          <li>
+            Click on the extension icon to open it in the current tab (when
+            possible).
+          </li>
+          <li>
+            Right-click the extension icon and click "Open next link in new
+            tab".
+          </li>
         </ul>
 
         <p>Opening the extension page:</p>
