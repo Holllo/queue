@@ -36,7 +36,12 @@ browser.browserAction.onClicked.addListener(async () => {
           data: nextItem
         };
 
-        await browser.tabs.sendMessage(tabs[0].id!, message);
+        try {
+          await browser.tabs.sendMessage(tabs[0].id!, message);
+        } catch {
+          await browser.tabs.create({active: true, url: nextItem.url});
+        }
+
         await removeQItem(nextItem.id);
       }
     }, 500);
