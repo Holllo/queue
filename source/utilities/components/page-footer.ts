@@ -7,6 +7,11 @@ type FooterProps = {
 };
 
 export function PageFooter(props: FooterProps): QComponent {
+  const donateLink = html`<${Link}
+    text="Donate"
+    url="https://liberapay.com/Holllo"
+  />`;
+
   const version = props.manifest.version;
   const versionLink = html`<${Link}
     text="v${version}"
@@ -18,8 +23,8 @@ export function PageFooter(props: FooterProps): QComponent {
   return html`
     <footer class="page-footer">
       <p>
-        ${versionUpdated} ${versionLink} 🄯 Holllo — Free and open-source,
-        forever.
+        ${donateLink} ♡ ${versionUpdated} ${versionLink} 🄯 Holllo — Free and
+        open-source, forever.
       </p>
     </footer>
   `;
