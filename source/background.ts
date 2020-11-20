@@ -123,7 +123,7 @@ for (const menu of contextMenus) {
   browser.contextMenus.create(menu, contextCreated);
 }
 
-browser.contextMenus.onClicked.addListener(async (info, _tab) => {
+browser.contextMenus.onClicked.addListener(async (info, tab) => {
   const id = info.menuItemId.toString();
   if (!contextMenuIDs.has(id)) {
     return;
@@ -132,10 +132,13 @@ browser.contextMenus.onClicked.addListener(async (info, _tab) => {
   const settings = await getSettings();
 
   if (id.includes('queue-add-new-link')) {
+    let text: string | undefined;
     let url: string;
     if (info.menuItemId === 'queue-add-new-link') {
+      text = info.linkText;
       url = info.linkUrl!;
     } else if (info.menuItemId === 'queue-add-new-link-tab') {
+      text = tab?.title;
       url = info.pageUrl!;
     } else {
       error(`Unknown menuItemId: ${info.menuItemId}`);
@@ -145,7 +148,7 @@ browser.contextMenus.onClicked.addListener(async (info, _tab) => {
     settings.queue.push({
       added: new Date(),
       id: newQItemID(settings.queue),
-      text: info.linkText ?? url,
+      text: text ?? url,
       url
     });
 
