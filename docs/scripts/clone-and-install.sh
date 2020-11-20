@@ -34,5 +34,3 @@ echo "Building the extension"
 echo "$ yarn build"
 yarn build
 echo
-
-echo "Done! Check 'queue/build' for the output."

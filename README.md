@@ -18,7 +18,7 @@
 To get started, [a script](https://github.com/Holllo/queue/blob/main/docs/scripts/clone-and-install.sh) to clone the repository and install the dependencies is available. You can download and execute the script in one go with the following command.
 
 ```sh
-sh -c "$(curl -fsSL https://github.com/Holllo/queue/blob/main/docs/scripts/clone-and-install.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/Holllo/queue/main/docs/scripts/clone-and-install.sh)"
 ```
 
 To test the extension, run `yarn start:firefox`.
