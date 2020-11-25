@@ -24,9 +24,17 @@ const defaultSettings: Settings = {
  * Returns the user's settings.
  */
 export async function getSettings(): Promise<Settings> {
-  const syncSettings: any = await browser.storage.sync.get(defaultSettings);
+  const syncSettings: any = await browser.storage.sync.get();
 
-  const queue: QItem[] = syncSettings.queue;
+  // Append properties with a name matching 'qi'x to queue.
+  const queue: QItem[] = [];
+  if (syncSettings !== undefined) {
+    for (const prop in syncSettings) {
+      if (prop.startsWith('qi')) {
+        queue.push(syncSettings[prop]);
+      }
+    }
+  }
 
   // Initialize all the non-JSON values, as they are stringified when saved.
   for (const item of queue) {
@@ -34,9 +42,10 @@ export async function getSettings(): Promise<Settings> {
   }
 
   const settings: Settings = {
-    latestVersion: syncSettings.latestVersion,
+    latestVersion: syncSettings.latestVersion ?? defaultSettings.latestVersion,
     queue,
-    versionGotUpdated: syncSettings.versionGotUpdated
+    versionGotUpdated:
+      syncSettings.versionGotUpdated ?? defaultSettings.versionGotUpdated
   };
 
   return settings;
@@ -47,7 +56,15 @@ export async function getSettings(): Promise<Settings> {
  * @param settings The settings to save.
  */
 export async function saveSettings(settings: Settings): Promise<Settings> {
-  await browser.storage.sync.set(settings);
+  const syncSettings: any = {
+    latestVersion: settings.latestVersion,
+    versionGotUpdated: settings.versionGotUpdated
+  };
+  for (const item of settings.queue) {
+    syncSettings['qi' + item.id.toString()] = item;
+  }
+
+  await browser.storage.sync.set(syncSettings);
   return settings;
 }
 
@@ -84,7 +101,8 @@ export async function removeQItem(
   }
 
   settings.queue.splice(index, 1);
-  return saveSettings(settings);
+  await browser.storage.sync.remove('qi' + id.toString());
+  return settings;
 }
 
 /**
