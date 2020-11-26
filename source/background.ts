@@ -4,12 +4,14 @@ import {
   getManifest,
   getNextQItem,
   getSettings,
+  migrate,
   newQItemID,
   QItem,
   QMessage,
   removeQItem,
   saveSettings,
-  updateBadge
+  updateBadge,
+  versionAsNumber
 } from '.';
 
 let timeoutID: number | null = null;
@@ -61,17 +63,28 @@ browser.runtime.onMessage.addListener(async (request: QMessage<unknown>) => {
 browser.runtime.onInstalled.addListener(async () => {
   const manifest = getManifest();
   const settings = await getSettings();
+  const versionGotUpdated =
+    versionAsNumber(manifest.version) > versionAsNumber(settings.latestVersion);
+
+  if (versionGotUpdated) {
+    // Set the previous sync storage data in the local storage as a backup.
+    const previous = await browser.storage.sync.get();
+    await browser.storage.local.clear();
+    await browser.storage.local.set(previous);
+
+    // Then migrate the sync storage data and update it.
+    const next = migrate(settings.latestVersion, previous);
+    next.latestVersion = manifest.version;
+    next.versionGotUpdated = versionGotUpdated;
+
+    await browser.storage.sync.clear();
+    await browser.storage.sync.set(next);
+  }
 
   // Open the options page when:
   // * The extension is first installed or is updated.
   // * In development, for convenience.
-  if (
-    manifest.version !== settings.latestVersion ||
-    manifest.nodeEnv === 'development'
-  ) {
-    settings.latestVersion = manifest.version;
-    settings.versionGotUpdated = true;
-    await saveSettings(settings);
+  if (versionGotUpdated || manifest.nodeEnv === 'development') {
     await openOptionsPage();
   }
 });

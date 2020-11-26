@@ -73,5 +73,14 @@ export async function updateBadge(settings?: Settings): Promise<void> {
   ]);
 }
 
+/**
+ * Returns a version string as a number by removing the periods.
+ * @param version
+ */
+export function versionAsNumber(version: string): number {
+  return Number(version.replace(/\./g, ''));
+}
+
 export * from './components';
+export * from './migrations';
 export * from './settings';
