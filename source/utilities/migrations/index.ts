@@ -23,7 +23,7 @@ export function migrate(
     }
 
     log(`Running migration ${migration.date.toISOString()}`);
-    next = migration.upgrade(previous);
+    next = migration.upgrade(next);
   }
 
   return next;
